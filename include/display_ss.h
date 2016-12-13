@@ -23,8 +23,9 @@ struct DispOpr {
 	/* functions */
 	int (*DeviceInit)(struct DispOpr *pModule);
 	int (*CleanScreen)(struct DispOpr *pModule, unsigned int dwBackColor);
-	int (*ShowPage)(void);
+	int (*ShowPixel)(struct DispOpr *pModule, int iX, int iY, unsigned int dwColor);
 
+	int (*ShowPage)(struct DispOpr *pModule, PT_PixelDatas ptPixelDatas);
 	struct fb_var_screeninfo fb_var;
 	struct fb_fix_screeninfo fb_fix;
 
@@ -33,6 +34,7 @@ struct DispOpr {
 
 int display_register(struct list_head *list);
 int fb_init(void);
+int CRTInit(void);
 
 
 /* call for app */

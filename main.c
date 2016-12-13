@@ -7,7 +7,7 @@
 #include "convert_ss.h"
 #include "video_ss.h"
 
-#define DEFAULT_DISPLAY_MODULE "fb"
+#define DEFAULT_DISPLAY_MODULE "crt"
 #define DEFAULT_VIDEO_MODULE "v4l2"
 
 void do_inits(void)

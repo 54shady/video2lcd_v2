@@ -23,6 +23,7 @@ int display_init(void)
 	printf("Display subsystem init\n");
 	/* 调用个模块初始化函数 */
 	iError = fb_init();
+	iError |= CRTInit();
 
 	return iError;
 }
