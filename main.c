@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 
 	/* 获取显示参数 */
 	GetDispResolution(&iLcdWidth, &iLcdHeight, &iLcdBpp);
-	printf("LCD display format [%d x %d]\n", iLcdWidth, iLcdHeight);
+	printf("LCD display format [%d x %d][%dBpp]\n", iLcdWidth, iLcdHeight, iLcdBpp);
 	lcd_row = iLcdWidth;
 	lcd_col = iLcdHeight;
 
