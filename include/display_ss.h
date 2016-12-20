@@ -36,12 +36,12 @@ int display_register(struct list_head *list);
 int fb_init(void);
 int CRTInit(void);
 
-
 /* call for app */
 int display_init(void);
 int GetDispResolution(int *piXres, int *piYres, int *piBpp);
 int GetVideoBufForDisplay(struct VideoBuf *ptFrameBuf);
 void display_modules_init(void);
 void choose_default_display_module(const char *name);
+void FlushPixelDatasToDev(PT_PixelDatas ptPixelDatas);
 
 #endif

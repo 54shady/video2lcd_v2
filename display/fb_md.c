@@ -12,13 +12,22 @@
 
 static int FbDeviceInit(struct DispOpr *pModule);
 static int FbCleanScreen(struct DispOpr *pModule, unsigned int dwBackColor);
+static int FBShowPage(struct DispOpr *pModule, PT_PixelDatas ptPixelDatas);
 
 static struct DispOpr disp_module = {
 	.name = "fb",
 	.use_as_default = 0,
 	.DeviceInit = FbDeviceInit,
 	.CleanScreen = FbCleanScreen,
+	.ShowPage = FBShowPage,
 };
+
+static int FBShowPage(struct DispOpr *pModule, PT_PixelDatas ptPixelDatas)
+{
+	if (pModule->pucFbMem != ptPixelDatas->aucPixelDatas)
+		memcpy(pModule->pucFbMem, ptPixelDatas->aucPixelDatas, ptPixelDatas->iTotalBytes);
+	return 0;
+}
 
 static int FbDeviceInit(struct DispOpr *pModule)
 {

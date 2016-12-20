@@ -23,7 +23,7 @@ int display_init(void)
 	printf("Display subsystem init\n");
 	/* 调用个模块初始化函数 */
 	iError = fb_init();
-	iError |= CRTInit();
+	//iError |= CRTInit();
 
 	return iError;
 }
@@ -113,4 +113,13 @@ void choose_default_display_module(const char *name)
 	list_for_each_entry(pModule, &display_list, list)
 		if (!strcmp(name, pModule->name))
 			pModule->use_as_default = 1;
+}
+
+void FlushPixelDatasToDev(PT_PixelDatas ptPixelDatas)
+{
+	struct DispOpr *pModule;
+
+	pModule = get_default_module();
+
+    pModule->ShowPage(pModule, ptPixelDatas);
 }

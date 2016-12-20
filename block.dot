@@ -1,0 +1,50 @@
+/*
+ * Video2Lcd version 2 dot file
+ *
+ * Usage(graphviz must be install):
+ * dot -Tpng block.dot -o block.png
+ */
+digraph video2lcd {
+node [shape="record"]
+/* edge [style="dashed"] */
+
+subgraph cluster_0 {
+	label = "app";
+	main [label = "main.c"];
+}
+
+subgraph cluster_1 {
+	label = "subsystem";
+	node [shape = "Mrecord", style = "filled"];
+	display;
+	video;
+	convet;
+}
+
+subgraph cluster_2 {
+	label = "modules";
+	node [shape = "Mrecord", color = "skyblue", style = "filled"];
+	fb;
+	crt;
+	v4l2;
+	mjpeg2rgb;
+	rgb2rgb;
+	yuv2rgb;
+}
+
+main -> main [label = "do_inits"];
+main -> display;
+main -> video;
+main -> convet;
+
+display -> fb;
+display -> crt;
+
+video -> v4l2;
+
+convet -> mjpeg2rgb;
+convet -> yuv2rgb;
+convet -> rgb2rgb;
+
+"Video2Lcd" [shape = "plaintext"];
+}

@@ -1,4 +1,4 @@
-CROSS_COMPILE =
+CROSS_COMPILE = arm-linux-
 AS            = $(CROSS_COMPILE)as
 LD            = $(CROSS_COMPILE)ld
 CC            = $(CROSS_COMPILE)gcc
@@ -14,7 +14,8 @@ export STRIP OBJCOPY OBJDUMP
 
 CFLAGS := -Wall -Werror -O2 -g
 CFLAGS += -I $(shell pwd)/include
-LDFLAGS := -lm -ljpeg -lvga -lvgagl
+CFLAGS += -DMINI2440_LCD_X35
+LDFLAGS := -lm -ljpeg
 
 TOPDIR := $(shell pwd)
 
@@ -29,7 +30,7 @@ all :
 	echo "/* This file is auto generate */" > include/compile_time.h
 	echo "#define COMPILE_DATE \"$(shell date +%Y-%m-%d\ %H:%M)\" " >> include/compile_time.h
 	make -C ./ -f $(TOPDIR)/Makefile.build
-	$(CC) $(LDFLAGS) -o $(TARGET) built-in.o
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $(TARGET) built-in.o
 	ctags -R
 
 clean:
