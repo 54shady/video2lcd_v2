@@ -9,7 +9,13 @@
 
 # 简明架构框图
 
+整体框架图
+
 ![block](./block.png)
+
+数据流向图
+
+![buffers](./buffers.png)
 
 # 文件说明
 

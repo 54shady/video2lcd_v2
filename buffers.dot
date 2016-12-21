@@ -1,0 +1,15 @@
+/*
+ * Buffers work flow
+ * Usage :
+ * dot -Tpng buffers.dot -o buffers.png
+ */
+digraph buffers {
+	rankdir = LR; /* left to right */
+	node [shape = box, style = filled]
+
+	VideoBuf -> ConvertBuf;
+	ConvertBuf -> ZoomBuf;
+	ZoomBuf -> FrameBuf;
+	ZoomBuf -> RotateBuf;
+	RotateBuf -> FrameBuf;
+}
