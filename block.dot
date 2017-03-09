@@ -37,14 +37,14 @@ main -> display;
 main -> video;
 main -> convet;
 
-display -> fb;
-display -> crt;
+display -> fb [dir = both];
+display -> crt [dir = both];
 
-video -> v4l2;
+video -> v4l2 [dir = both];
 
-convet -> mjpeg2rgb;
-convet -> yuv2rgb;
-convet -> rgb2rgb;
+convet -> mjpeg2rgb [dir = both];
+convet -> yuv2rgb [dir = both];
+convet -> rgb2rgb [dir = both];
 
 "Video2Lcd" [shape = "plaintext"];
 }
