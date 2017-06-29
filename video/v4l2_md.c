@@ -157,7 +157,7 @@ static int V4l2DeviceInit(struct VideoOpr *pModule)
 			}
 		}
 
-		/* Queue 放入队列 */
+		/* Queue 把缓冲区放入队列,供采集数据使用 */
 		for (i = 0; i < pModule->iVideoBufCnt; i++)
 		{
 			memset(&tV4l2Buf, 0, sizeof(struct v4l2_buffer));
@@ -208,13 +208,18 @@ static int V4l2GetFrameForStreaming(PT_VideoOpr pModule, PT_VideoBuf ptVideoBuf)
 	tFds[0].fd = pModule->iFd;
 	tFds[0].events = POLLIN;
 
+	/* 如果没有数据采集到则休眠在这里 */
 	iRet = poll(tFds, 1, -1);
 	if (iRet <= 0)
 	{
 		return -1;
 	}
 
-	/* 把视频缓冲区放入队列 */
+	/*
+	 * Dequeue
+	 * 能够执行到这里说明缓冲区已经有数据了
+	 * 把缓冲区从队列中取出
+	 */
 	memset(&tV4l2Buf, 0, sizeof(struct v4l2_buffer));
 	tV4l2Buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	tV4l2Buf.memory = V4L2_MEMORY_MMAP;
@@ -228,10 +233,7 @@ static int V4l2GetFrameForStreaming(PT_VideoOpr pModule, PT_VideoBuf ptVideoBuf)
 	/* 标识当前哪个缓冲区有视频数据 */
 	pModule->iVideoBufCurIndex = tV4l2Buf.index;
 
-	/*
-	 * 下面这里写的感觉有点怪异
-	 * 没有用tV4l2Buf,用的是pModule
-	 */
+	/* 填充VideoBuf数据结构 */
 	ptVideoBuf->iPixelFormat = pModule->iPixelFormat;
 	ptVideoBuf->tPixelDatas.iWidth = pModule->iWidth;
 	ptVideoBuf->tPixelDatas.iHeight = pModule->iHeight;
@@ -241,6 +243,11 @@ static int V4l2GetFrameForStreaming(PT_VideoOpr pModule, PT_VideoBuf ptVideoBuf)
 
 	ptVideoBuf->tPixelDatas.iLineBytes = pModule->iWidth * ptVideoBuf->tPixelDatas.iBpp / 8;
 	ptVideoBuf->tPixelDatas.iTotalBytes = tV4l2Buf.bytesused;
+
+	/*
+	 * 应用层的VideoBuf和底层的摄像头驱动缓冲区做了映射(mmap)
+	 * 所以直接根据相应的index操作就可以
+	 */
 	ptVideoBuf->tPixelDatas.aucPixelDatas = pModule->pucVideoBuf[tV4l2Buf.index];
 
 	return 0;
