@@ -34,7 +34,7 @@ static int FbDeviceInit(struct DispOpr *pModule)
 	int iError;
 	int iFd;
 
-	iFd = open("/dev/fb0", O_RDWR);
+	iFd = open("/dev/graphics/fb0", O_RDWR);
 	if (iFd < 0)
 	{
 		printf("can't open device fb\n");
