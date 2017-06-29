@@ -15,6 +15,12 @@
 
 数据流向图
 
+- 摄像头采集的数据放入VideoBuf, 其格式(MJPEG)不一定能够直接在LCD上显示,所以要先将摄像头采集到的数据进行格式转换
+- 经过格式转换后放入ConvertBuf(MJPEG->RGB)
+- 摄像头采集的数据分辨率和LCD不一定一致,所以需要进行放大或缩小操作,将结果放入ZoomBuf
+- 如果缩放后的数据需要进行旋转将放入RotateBuf
+- 最终将要显示的数据FrameBuf放入到显存上(framebuffer)
+
 ![buffers](./buffers.png)
 
 # 文件说明
